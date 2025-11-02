@@ -17,7 +17,6 @@ class TabView(ctk.CTkTabview):
         self.tasks_tab = self.add("Tasks")
         self.tasks_screen = TasksScreen(
             self.tasks_tab,
-            fg_color="green"
             )
         self.tasks_tab.rowconfigure(0, weight=1)
         self.tasks_tab.columnconfigure(0, weight=1)
@@ -26,7 +25,6 @@ class TabView(ctk.CTkTabview):
         self.stats_tab = self.add("Stats")
         self.stats_screen = StatsScreen(
             self.stats_tab,
-            fg_color="green"
             )
         self.stats_tab.rowconfigure(0, weight=1)
         self.stats_tab.columnconfigure(0, weight=1)

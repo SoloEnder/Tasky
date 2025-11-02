@@ -1,8 +1,8 @@
 
 import customtkinter as ctk
-from ....src.tasks.tasks_data_handler import tasks_data_handler
-from ....src.tasks.tasks_frames_handler import tasks_frames_handler
-from ....src.tasks import task_creator
+from ...src.tasks.tasks_data_handler import tasks_data_handler
+from ...src.tasks.tasks_frames_handler import tasks_frames_handler
+from ...src.tasks import task_creator
 
 class AllTasksFrame(ctk.CTkScrollableFrame):
 
@@ -44,7 +44,6 @@ class AllTasksFrame(ctk.CTkScrollableFrame):
         self.tasks_frames_count = len(self.tasks_frames)
 
         if self.tasks_frames:
-            print(self.tasks_frames)
             self.no_task_lb.grid_forget()
 
             for index, task_frame in enumerate(self.tasks_frames):

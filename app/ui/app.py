@@ -13,6 +13,8 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Tasks Gamifier")
+        self.geometry("500x440")
+        self.resizable(False, False)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -25,3 +27,4 @@ class App(ctk.CTk):
     def on_closing(self):
         self.tasks_data_handler.save_tasks_data()
         self.destroy()
+
