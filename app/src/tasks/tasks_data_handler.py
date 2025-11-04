@@ -1,35 +1,34 @@
 
-from tkinter.messagebox import showerror, askretrycancel
 import json
-from ...libs import path_maker
+from ...src.save_manager import save_data, load_data
+import os
 
 class TasksDataHandler():
 
     def __init__(self, tasks_data: list=[]):
         self.tasks_data = tasks_data
-        self.relative_backup_path =  "../../data/user/tasks_data_backup.json"
-        self.base_path = __file__
+        self.backupdir_path =  os.path.join(os.getenv("APPDATA", os.path.join(os.path.expanduser("~"), "AppData/Roaming/Tasks Gamifier")), "Tasks Gamifier")
 
-    def save_tasks_data(self, **kwargs):
-        self.relative_backup_path = kwargs.get("relative_path", self.relative_backup_path)
-        self.base_path = kwargs.get("base_path", self.base_path)
-        file = path_maker.make_path(self.base_path, self.relative_backup_path, check_existence=False)
+        if not os.path.exists(self.backupdir_path):
+            print("No backup folder found !")
+            print("Creating backup folder...")
+            os.mkdir(self.backupdir_path)
 
-        with open(file, "w") as f:
-            json.dump(self.tasks_data, f)
+        self.backupfilename = "tasks.json"
+        self.backupfile_path = os.path.join(self.backupdir_path, self.backupfilename)
 
-    def load_tasks_data(self, **kwargs):
-        self.relative_backup_path = kwargs.get("relative_path", self.relative_backup_path)
-        self.base_path = kwargs.get("base_path", self.base_path)
-        file = path_maker.make_path(self.base_path, self.relative_backup_path, check_existence=False)
+    def save_tasks_data(self):
+        print("Saving tasks data...")
+        save_data(self.backupfile_path, self.tasks_data)
+       
 
-        try:
-            
-            with open(file, "r") as f:
-                self.tasks_data = json.load(f)
+    def load_tasks_data(self):
+        print("Loading tasks backup file...")
+        self.tasks_data = load_data(self.backupfile_path)
 
-        except (json.JSONDecodeError, FileNotFoundError):
-            showerror(title="Tasks Gamifier | Load Data", message="Sorry, but the program could not load the saved data.")
-            return
+        if not self.tasks_data:
+            self.tasks_data = []
+
         
 tasks_data_handler = TasksDataHandler()
+

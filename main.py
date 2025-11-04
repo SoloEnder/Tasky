@@ -1,6 +1,8 @@
 
 import tkinter as tk
-from app.ui.app import App
+from app.src.app import App
 
 app = App()
-app.mainloop()
+print("Welcome to Tasks Gamifier v0.1.0-alpha")
+app.running()
+

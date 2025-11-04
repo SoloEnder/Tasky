@@ -1,24 +1,36 @@
 
 from ..libs import path_maker
-from .tasks.tasks_data_handler import tasks_data_handler
 import json
 
-def open_file(base_path: str, relative_path: str, mode: str):
-    filepath = path_maker.make_path(base_path, relative_path)
+def save_data(filepath: str, data):
 
-    if filepath:
+    with open(filepath, "w") as f:
+        json.dump(data, f)
+    print("Data saved !")
 
-        with open(path_maker.make_path(base_path, relative_path), mode) as f:
-            return f
-        
-    else:
+def load_data(filepath: str):
+
+    try:
+
+        with open(filepath, "r") as f:
+            data = json.load(f)
+
+    except FileNotFoundError:
+        print(f"Unable to load file data : file {filepath} not found !")
         return
     
-def save_tasks_data(base_path, relative_path):
-    file = open_file(base_path, relative_path, mode="w")
+    except json.JSONDecodeError:
+        print(f"Unable to load data : file {filepath} corrupted !")
+        return
 
-    if file:
-        json.dump(tasks_data_handler.tasks_data, file)
-    
+    except PermissionError:
+        print("Unable to load : Permission denied !")
+        return
 
+    except Exception as e:
+        print("Unable to load file ! ", f"\n{e}")
+        return
 
+    else:
+        return data
+        

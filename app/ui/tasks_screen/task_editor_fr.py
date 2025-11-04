@@ -8,9 +8,9 @@ from tkinter.messagebox import askyesno
 
 class TaskEditorFrame(ctk.CTkFrame):
 
-    def __init__(self, master, **kwargs) :
+    def __init__(self, master, player, **kwargs) :
         super().__init__(master, **kwargs)
-        self.master = master
+        self.player = player
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = tasks_data_handler.tasks_data
         self.tasks_frames_handler = tasks_frames_handler
@@ -30,9 +30,9 @@ class TaskEditorFrame(ctk.CTkFrame):
         self.title_e = ctk.CTkEntry(self)
         self.title_e.grid(row=2, sticky="w")
 
-        self.xp_won_lb = ctk.CTkLabel(self, text="Xp gain").grid(row=3, sticky="w")
-        self.xp_won_e = ctk.CTkEntry(self)
-        self.xp_won_e.grid(row=4, sticky="w")
+        self.difficulty_lb = ctk.CTkLabel(self, text="Difficulty").grid(row=3, sticky="w")
+        self.difficulty_om = ctk.CTkOptionMenu(self, values=["1", "2", "3", "4", "5"])
+        self.difficulty_om.grid(row=4, sticky="w")
 
         self.bad_input_b = ctk.CTkButton(self, text="!", text_color="red", command=self.show_problem_window, width=1, fg_color=self.button_color_1)
 
@@ -58,29 +58,23 @@ class TaskEditorFrame(ctk.CTkFrame):
             self.bad_input_b.grid(row=1, sticky="e")
             return
 
-        xp_won = self.xp_won_e.get()
-
-        if not xp_won.isdigit():
-            self.error_window_msg = "XP gain must be an integer"
-            self.bad_input_b.grid(row=3, sticky="e")
-            return
-
+        difficulty = self.difficulty_om.get()
 
         self.bad_input_b.grid_forget()
         description = self.description_tb.get(0.0, ctk.END)
         data = {
             "title":title,
             "description":description,
-            "xp_won":int(xp_won),
+            "difficulty":difficulty,
             "creation_date":str(self.current_date),
             "deadline_date":"",
-            "task_index":len(self.tasks_data)
+            "task_index":len(self.tasks_data) # type: ignore
         }
         return data
 
     def check_existence(self, title):
         
-        for index, task in enumerate(self.tasks_data):
+        for index, task in enumerate(self.tasks_data): # type: ignore
 
             if task["title"] == title:
 
@@ -96,17 +90,15 @@ class TaskEditorFrame(ctk.CTkFrame):
         self.new_task_data = self.get_task_data()
 
         if self.new_task_data:
-            self.new_task = task_creator.create_task(self.master.all_tasks_fr, self.new_task_data) # type: ignore
+            self.new_task = task_creator.create_task(self.master.all_tasks_fr, self.player, self.new_task_data) # type: ignore
 
             if self.mode == "creation":
-                self.tasks_data.insert(0, self.new_task_data)
-                self.tasks_data_handler.save_tasks_data()
+                self.tasks_data.insert(0, self.new_task_data) # type: ignore
                 self.tasks_frames_handler.add_task_frame(self.new_task)
 
             elif self.mode == "edition":
                 self.tasks_frames[self.task_index] = self.new_task
-                self.tasks_data[self.task_index] = self.new_task_data
-                self.tasks_data_handler.save_tasks_data()
+                self.tasks_data[self.task_index] = self.new_task_data # type: ignore
                 self.master.all_tasks_fr.refresh() # type: ignore
 
     def switch_mode(self, task_index: int=0, task_data: dict={}, mode: str="creation", confirm_deletion: bool=False):
@@ -116,7 +108,6 @@ class TaskEditorFrame(ctk.CTkFrame):
             self.mode = "creation"
             self.cancel_b.grid_remove()
             self.title_e.delete(0, ctk.END)
-            self.xp_won_e.delete(0, ctk.END)
             self.description_tb.delete(0.0, ctk.END)
             self.confirm_b.configure(command=self.edit_task)
             self.confirm_b.configure(text="Add", command=self.edit_task)
@@ -127,11 +118,9 @@ class TaskEditorFrame(ctk.CTkFrame):
             self.mode = "edition"
             self.task_index = task_index
             self.title_e.delete(0, ctk.END)
-            self.xp_won_e.delete(0, ctk.END)
             self.description_tb.delete(0.0, ctk.END)
             self.cancel_b.grid(row=0, sticky="e")
             self.title_e.insert(0, task_data["title"])
-            self.xp_won_e.insert(0, task_data["xp_won"])
             self.description_tb.insert(0.0, task_data["description"])
             self.confirm_b.configure(text="Apply", command=self.edit_task)
             self.confirm_b.grid(row=7, sticky="e")
@@ -152,7 +141,5 @@ class TaskEditorFrame(ctk.CTkFrame):
         
         if self.deletion_confirmation:
             self.tasks_frames_handler.remove_task_frame((self.task_index))
-            print(self.tasks_frames)
-            del self.tasks_data_handler.tasks_data[self.task_index]
-            self.tasks_data_handler.save_tasks_data()
+            del self.tasks_data_handler.tasks_data[self.task_index] # type: ignore
             self.switch_mode(mode="creation")
