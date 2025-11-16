@@ -11,7 +11,7 @@ def file_operation_exception(func):
         filepath_without_username = remove_username(filepath)
 
         try:
-            func(filepath, data)
+            data = func(filepath, data)
 
         except FileNotFoundError:
             logger.warning(f"No file found at {filepath_without_username}")
@@ -28,6 +28,9 @@ def file_operation_exception(func):
         except Exception as e:
             logger.warning(f"Unable to load data from file {filepath_without_username}\n{e}")
             return
+        
+        else:
+            return data
 
     return wrapper
 
