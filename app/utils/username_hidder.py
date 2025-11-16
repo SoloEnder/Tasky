@@ -1,7 +1,12 @@
+from pathlib import Path
+import getpass
 
-import os
+def remove_username(path):
+    # Convertit en string
+    path_str = str(path)
 
-def remove_username(path: str):
-    username = os.path.expanduser("~")
-    path = path.replace(username, "~")
-    return path
+    # Nom de l’utilisateur actuel
+    username = getpass.getuser()
+
+    # Remplace uniquement le nom d'utilisateur dans les chemins
+    return path_str.replace(f"/home/{username}", "~")

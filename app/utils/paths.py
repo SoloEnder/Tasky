@@ -1,11 +1,37 @@
-
 import os
+from pathlib import Path
+import platform
 
-base_path = os.path.join(os.getenv("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Tasky")), "Tasky")
-data_dir = os.path.join(base_path, "data") # Data folder
+system = platform.system()
 
-user_data_dir = os.path.join(data_dir, "user") # User data directory
-tasks_backup_file = os.path.join(user_data_dir, "tasks.json") # Tasks backup file 
+# ------------------------------
+# Base directory depending on OS
+# ------------------------------
+if system == "Windows":
+    # Exemple : C:\Users\Name\AppData\Roaming\Tasky
+    base_path = Path(os.getenv("APPDATA")) / "Tasky"
+elif system == "Darwin":
+    # macOS : ~/Library/Application Support/Tasky
+    base_path = Path.home() / "Library" / "Application Support" / "Tasky"
+else:
+    # Linux : ~/.local/share/Tasky
+    base_path = Path.home() / ".local" / "share" / "Tasky"
 
-logs_dir = os.path.join(base_path, "logs")
-logs_basefile = os.path.join(logs_dir, "app.log")
+# ------------------------------
+# Subdirectories
+# ------------------------------
+data_dir = base_path / "data"
+user_data_dir = data_dir / "user"
+logs_dir = base_path / "logs"
+
+# ------------------------------
+# Create folders if missing
+# ------------------------------
+for folder in (data_dir, user_data_dir, logs_dir):
+    folder.mkdir(parents=True, exist_ok=True)
+
+# ------------------------------
+# Files
+# ------------------------------
+tasks_backup_file = user_data_dir / "tasks.json"
+logs_basefile = logs_dir / "app.log"
