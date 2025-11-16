@@ -34,7 +34,7 @@ class TaskEditorFrame(ctk.CTkFrame):
         self.title_e.grid(row=2, sticky="ew")
 
         self.difficulty_lb = ctk.CTkLabel(self, text="Difficulty").grid(row=3, sticky="w", pady=5)
-        self.difficulty_om = ctk.CTkOptionMenu(self, values=["*", "**", "***", "****", "*****"])
+        self.difficulty_om = ctk.CTkOptionMenu(self, values=["Basic", "Normal", "Hard", "Very hard"])
         self.difficulty_om.grid(row=4, sticky="ew")
 
         self.bad_input_b = ctk.CTkButton(self, text="!", text_color="red", command=self.show_problem_window, width=1, fg_color=self.button_color_1)
