@@ -22,8 +22,15 @@ class TaskFrame(ctk.CTkFrame):
         self.complete_task_cb = ctk.CTkCheckBox(self, text=self.task_data["title"], command=self.complete_task, fg_color="blue", font=self.title_font)
         self.complete_task_cb.grid(row=0, column=0, sticky="w", padx=8, pady=5)
 
+        self.difficulty_levelename_colors = {
+            "Basic":"green",
+            "Normal":"yellow",
+            "Hard":"dark red",
+            "Very hard":"red"
+        }
+
         self.difficulty = self.task_data["difficulty"]
-        self.difficulty_lb = ctk.CTkLabel(self, text=self.difficulty)
+        self.difficulty_lb = ctk.CTkLabel(self, text=self.difficulty, text_color=self.difficulty_levelename_colors[self.difficulty])
         self.difficulty_lb.grid(row=0, column=2, sticky="e", padx=8)
         self.description_sv = ctk.StringVar(self)
         self.description_tb = ctk.CTkTextbox(self,  height=90, fg_color=self.bg_color)
