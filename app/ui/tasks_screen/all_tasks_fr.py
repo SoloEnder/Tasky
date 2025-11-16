@@ -38,13 +38,13 @@ class AllTasksFrame(ctk.CTkScrollableFrame):
         """
 
         if self.tasks_frames_handler.tasks_frames_count != self.tasks_frames_count:
-            self.logger.info("Tasks modified, refreshing screen...")
+            self.logger.info("Detected modification on tasks, refreshing screen...")
             self.refresh()
 
         self.check_count += 1
         
         if self.check_count % 100 == 0:
-            self.logger.info(f"Checking for new tasks {self.check_count} time")
+            self.logger.debug(f"Checking for new tasks {self.check_count} time")
 
         self.after(500, self.check_for_new_tasks)
 
@@ -62,4 +62,4 @@ class AllTasksFrame(ctk.CTkScrollableFrame):
 
         else:
             self.no_task_lb.grid(row=0, sticky="ew")
-        self.logger.info("Tasks frames refreshed")
+        self.logger.info("Tasks screen refreshed")

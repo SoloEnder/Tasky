@@ -1,13 +1,20 @@
 
 import json
-from ..libs import path_maker
+import logging
+from app.utils.username_hidder import remove_username
+
+logger = logging.getLogger(__name__)
 
 def save_data(filepath: str, data):
+
 
     with open(filepath, "w") as f:
         json.dump(data, f)
 
+    logger.info(f"Data saved at {remove_username(filepath)}")
+
 def load_data(filepath: str):
+    filepath_without_username = remove_username(filepath)
 
     try:
 
@@ -15,21 +22,22 @@ def load_data(filepath: str):
             data = json.load(f)
 
     except FileNotFoundError:
-        print(f"Unable to load file data : file {filepath} not found !")
+        logger.info(f"No file found at {filepath_without_username}")
         return
     
     except json.JSONDecodeError:
-        print(f"Unable to load data : file {filepath} corrupted !")
+        logger.info(f"Unable to load data from file {filepath_without_username} : file corrupted")
         return
 
     except PermissionError:
-        print("Unable to load : Permission denied !")
+        logger.info(f"Unable to load data from file {filepath_without_username} : permission denied")
         return
 
     except Exception as e:
-        print("Unable to load file ! ", f"\n{e}")
+        logger.info(f"Unable to load data from file {filepath_without_username}\n{e}")
         return
 
     else:
+        logger.info(f"Data loaded from {remove_username(filepath)}")
         return data
         

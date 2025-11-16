@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter.messagebox import showinfo
 import datetime as dt
+import logging
 from ...src.tasks.tasks_data_handler import tasks_data_handler
 from ...src.tasks.tasks_frames_handler import tasks_frames_handler
 from ...src.tasks import task_creator
@@ -11,6 +12,7 @@ class TaskEditorFrame(ctk.CTkFrame):
     def __init__(self, master, user, **kwargs) :
         super().__init__(master, **kwargs)
         self.user = user
+        self.logger = logging.getLogger(__name__)
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = tasks_data_handler.tasks_data
         self.tasks_frames_handler = tasks_frames_handler

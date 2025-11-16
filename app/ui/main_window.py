@@ -26,7 +26,4 @@ class MainWindow(ctk.CTk):
         self.tabview.grid(sticky="nsew")
         self.logger = logging.getLogger(__name__)
 
-    def on_closing(self):
-        self.logger.info("Saving tasks data...")
-        self.tasks_data_handler.save_tasks_data()
 
