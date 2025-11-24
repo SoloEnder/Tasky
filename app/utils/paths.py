@@ -1,7 +1,10 @@
 
 import os
+import __main__
 
-base_path = os.path.join(os.getenv("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Tasky")), "Tasky")
+# Quand le code est compilé via PyInstaller, os.path.dirname(__main__.__file__) renvoit chemin_quelconque\Tasky\_internal
+isforwindows = False
+base_path = os.path.dirname(__main__.__file__) if not isforwindows else os.path.dirname(os.path.dirname(__main__.__file__))
 data_dir = os.path.join(base_path, "data") # Data folder
 
 user_data_dir = os.path.join(data_dir, "user") # User data directory
