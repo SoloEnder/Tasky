@@ -2,6 +2,7 @@ import logging
 import customtkinter as ctk
 from .sidebar import SideBarFrame
 from .settings_screen import settings_screen
+from .stats_screen import stats_screen
 from app.ui.tasks_screen import tasks_screen
 from ..src.tasks.tasks_data_handler import tasks_data_handler
 import logging
@@ -26,7 +27,7 @@ class MainWindow(ctk.CTk):
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = self.tasks_data_handler.tasks_data
         self.logger = logging.getLogger(__name__)
-        self.screens = {"Tasks":tasks_screen.TasksScreen(self, self.user), "Settings":settings_screen.SettingsScreen(self)}
+        self.screens = {"Tasks":tasks_screen.TasksScreen(self, self.user), "Settings":settings_screen.SettingsScreen(self), "Stats":stats_screen.StatsScreen(self)}
         self.current_screen = ("Tasks", self.screens["Tasks"])
         self.side_bar = SideBarFrame(self, user)
         self.side_bar.grid(row=0, column=0, sticky="nsew")
@@ -41,7 +42,7 @@ class MainWindow(ctk.CTk):
 
         if ungrid_current:
             self.current_screen[1].grid_forget()
-            
+
         self.frame_object = self.screens[frame_name]
         self.logger.debug(f"Frame name : {frame_name}")
         self.logger.debug(f"Frame object : {self.frame_object}")
