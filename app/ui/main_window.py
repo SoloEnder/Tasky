@@ -25,26 +25,33 @@ class MainWindow(ctk.CTk):
         self.user = user
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = self.tasks_data_handler.tasks_data
+        self.logger = logging.getLogger(__name__)
         self.screens = {"Tasks":tasks_screen.TasksScreen(self, self.user), "Settings":settings_screen.SettingsScreen(self)}
         self.current_screen = ("Tasks", self.screens["Tasks"])
         self.side_bar = SideBarFrame(self, user)
         self.side_bar.grid(row=0, column=0, sticky="nsew")
         self.switch_frame("Tasks", destroy=False)
-        self.logger = logging.getLogger(__name__)
 
     def on_closing(self):
         self.logger.debug("Window closure request received")
         self.destroy()
         self.logger.info("Window closed")
 
-    def switch_frame(self, frame_name: str, destroy: bool=False):
+    def switch_frame(self, frame_name: str, destroy: bool=False, ungrid_current: bool=True):
+
+        if ungrid_current:
+            self.current_screen[1].grid_forget()
+            
         self.frame_object = self.screens[frame_name]
+        self.logger.debug(f"Frame name : {frame_name}")
+        self.logger.debug(f"Frame object : {self.frame_object}")
 
         if destroy:
             self.current_screen[1].destroy()
 
         self.current_screen = (frame_name, self.frame_object)
         self.current_screen[1].grid(row=0, column=1, sticky="nsew")
+        self.logger.debug(f"Current screen : {self.frame_object}")
 
 
 
