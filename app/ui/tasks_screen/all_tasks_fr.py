@@ -7,7 +7,7 @@ from ...src.tasks import task_creator
 
 class AllTasksFrame(ctk.CTkScrollableFrame):
 
-    def __init__(self, master, user, **kwargs):
+    def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = self.tasks_data_handler.tasks_data
@@ -22,7 +22,7 @@ class AllTasksFrame(ctk.CTkScrollableFrame):
         self.logger.info("Creating tasks frames...")
         for index, task_data in enumerate(self.tasks_data): # type: ignore
             self.tasks_data = self.tasks_data
-            self.task_fr = task_creator.create_task(self, task_data=task_data, user=user)
+            self.task_fr = task_creator.create_task(self, task_data=task_data)
             self.tasks_frames_handler.add_task_frame(self.task_fr)
             self.rowconfigure(index, weight=1)
             self.task_fr.grid(row=index, pady=10, sticky="new")

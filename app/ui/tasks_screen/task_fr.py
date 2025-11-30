@@ -4,14 +4,13 @@ import logging
 
 class TaskFrame(ctk.CTkFrame):
 
-    def __init__(self, master, user, task_data, **kwargs):
+    def __init__(self, master, task_data, **kwargs):
         super().__init__(master, **kwargs)
 
         for i in range(2):
             self.columnconfigure(i, weight=1)
 
         self.task_data = task_data
-        self.user = user
         self.master = master
         self.logger = logging.getLogger(__name__)
         self.bg_color = "grey17"
