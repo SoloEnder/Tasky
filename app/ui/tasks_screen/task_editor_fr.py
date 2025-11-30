@@ -9,11 +9,10 @@ from ...src.tasks import task_creator
 
 class TaskEditorFrame(ctk.CTkFrame):
 
-    def __init__(self, master, user, **kwargs) :
+    def __init__(self, master, **kwargs) :
         super().__init__(master, **kwargs)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(6, weight=2)
-        self.user = user
         self.logger = logging.getLogger(__name__)
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = tasks_data_handler.tasks_data
@@ -45,7 +44,7 @@ class TaskEditorFrame(ctk.CTkFrame):
         self.description_tb = ctk.CTkTextbox(self)
         self.description_tb.grid(row=6, sticky="nsew")
 
-        self.confirm_b = ctk.CTkButton(self, text="Add", command=self.edit_task, width=9) #type: ignore
+        self.confirm_b = ctk.CTkButton(self, text="Add", command=self.edit_task, width=9)
         self.confirm_b.grid(row=7, sticky="sew", pady=5)
 
         self.delete_b = ctk.CTkButton(self, text="Delete", text_color="red", fg_color=self.button_color_1, width=9, command=lambda: self.switch_mode(mode="deletion", confirm_deletion=True))
@@ -88,6 +87,12 @@ class TaskEditorFrame(ctk.CTkFrame):
                 
                 return True
             
+    def reinit_widgets(self):
+        self.mode = "creation"
+        self.cancel_b.grid_remove()
+        self.title_e.delete(0, ctk.END)
+        self.description_tb.delete(0.0, ctk.END)
+            
     def show_problem_window(self):
         showinfo(self.error_window_title, self.error_window_msg)
 
@@ -95,7 +100,7 @@ class TaskEditorFrame(ctk.CTkFrame):
         self.new_task_data = self.get_task_data()
 
         if self.new_task_data:
-            self.new_task = task_creator.create_task(self.master.all_tasks_fr, self.user, self.new_task_data) # type: ignore
+            self.new_task = task_creator.create_task(self.master.all_tasks_fr, self.new_task_data) # type: ignore
             self.logger.info("A task frame has been created")
 
             if self.mode == "creation":
@@ -110,16 +115,15 @@ class TaskEditorFrame(ctk.CTkFrame):
                 self.master.all_tasks_fr.refresh() # type: ignore
                 self.logger.info("A task has been edited")
 
+            self.reinit_widgets()
+
     def switch_mode(self, task_index: int=0, task_data: dict={}, mode: str="creation", confirm_deletion: bool=False):
         self.logger.info(f"Switched to task {mode} mode")
         self.task_index = task_index
 
         if mode == "creation":
             self.mode = "creation"
-            self.cancel_b.grid_remove()
-            self.title_e.delete(0, ctk.END)
-            self.description_tb.delete(0.0, ctk.END)
-            self.confirm_b.configure(command=self.edit_task)
+            self.reinit_widgets()
             self.confirm_b.configure(text="Add", command=self.edit_task)
             self.confirm_b.grid(row=7, sticky="ew")
             self.delete_b.grid_forget()
