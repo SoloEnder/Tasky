@@ -1,5 +1,5 @@
 
-from app.src.events_handler import EventsHandler
+from app.libs.events_sentinel import EventsHandler, Event
 
 main_events_handler = EventsHandler()
 

@@ -16,7 +16,7 @@ class SideBarFrame(ctk.CTkFrame):
     def refresh(self):
         index = 0
 
-        for screen_name, in self.master.screens.keys():  #type: ignore
+        for screen_name in self.master.screens.keys():  #type: ignore
             button = ctk.CTkButton(self, text=screen_name, height=35, font=("default", 15), command=lambda sn=list(self.master.screens.keys())[index]: self.master.switch_frame(sn)) #type: ignore
             button.grid(row=index, column=0, sticky="new", pady=10)
             self.buttons[screen_name] = button
