@@ -2,7 +2,7 @@
 import os
 from app.ui.main_window import MainWindow
 from app.src.tasks.tasks_data_handler import tasks_data_handler
-from app.dungeon import dungeon
+from app.tasky_dungeon import tasky_dungeon
 import logging, logging.handlers
 from app.src.boot import check_and_make 
 from app.utils import paths
@@ -17,7 +17,7 @@ class App:
         self.logger = logging.getLogger(__name__)
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data_handler.load_tasks_data()
-        self.dungeon = dungeon
+        self.tasky_dungeon = tasky_dungeon.TaskyDungeon
         self.main_window = MainWindow(self)
         self.events_handler = events_handlers.main_events_handler
 
