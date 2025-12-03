@@ -34,7 +34,6 @@ class MainWindow(ctk.CTk):
             }
         
         for event_name, event_kw in self.events_infos.items():
-            print(event_name, event_kw)
             event = events_handlers.Event(name=event_name, **event_kw)
             self.events_handler.add_event(event)
 
