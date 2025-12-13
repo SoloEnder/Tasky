@@ -13,6 +13,10 @@ class Player:
             "TaskyDungeon.Player.LevelModified":{
                 "ancient_value":None,
                 "new_value":None,
+            },
+            "TaskyDungeon.Player.GotSkillPoints":{
+                "ancient_value":None,
+                "new_value":None
             }
         }
 
@@ -32,6 +36,7 @@ class Player:
         self.strength = kwargs.get("strength", self.max_strength)
         self.max_defense = kwargs.get("max_defense", 5)
         self.defense = kwargs.get("defense", self.max_defense)
+        self.skill_points = kwargs.get("skills_point", 0)
 
     def get_xp(self, xp: int|float, add_to_total: bool=True):
         self.xp += xp
@@ -48,12 +53,15 @@ class Player:
             self.levelup(1)
             self.get_xp(diff, add_to_total=False)
 
-        self.events_handler.raise_event("Dungeon.Player.GetXP", xp=xp)
+        self.events_handler.raise_event("TaskyDungeon.Player.GetXP", xp=xp)
     
     def levelup(self, lvl_count: int, reset_xp: bool=True):
         print("Level up")
         ancient_level = self.level
         self.level += lvl_count
+        ancient_skills_points = self.skill_points
+        self.skill_points += 1
+        self.events_handler.raise_event("TaskyDungeon.Player.GotSkillPoint", ancient_value=ancient_skills_points, new_value=self.skill_points)
         self.xp_for_levelup = int(eval(f"{self.xp_for_levelup}{self.xp_growth}"))
 
         if reset_xp:

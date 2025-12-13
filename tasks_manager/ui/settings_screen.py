@@ -1,8 +1,10 @@
 
 import customtkinter as ctk
 
-class Screen(ctk.CTkFrame):
+from app.tasky.ui import screen
+
+class SettingsScreen(screen.Screen):
 
     def __init__(self, master):
         super().__init__(master)
-        self.widgets = {}
+        

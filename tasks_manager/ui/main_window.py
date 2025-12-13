@@ -1,10 +1,11 @@
 import logging 
 import customtkinter as ctk
 from app.tasky.utils import events_handlers
-from app.tasky.src.tasks.tasks_data_handler import tasks_data_handler
-from app.tasky.ui.tasks_screen import tasks_screen
+from app.tasky.ui.sidebar import SideBarFrame
 from app.tasky.ui import settings_screen
-from app.tasky.ui import sidebar
+from app.tasky.ui.tasks_screen import tasks_screen
+from app.tasky.src.tasks.tasks_data_handler import tasks_data_handler
+import logging
 
 class MainWindow(ctk.CTk):
     """
@@ -24,26 +25,25 @@ class MainWindow(ctk.CTk):
 
         self.events_handler = events_handlers.main_events_handler
 
-                #  Creating events
+        #  Creating events
         self.events_infos = {
-            "TaskyDungeon.Ui.ScreenSwitched":{"ancient_name":None, "ancient_object":None, "new_name":None, "new_object":None}, 
-            "TaskyDungeon.Ui.ScreenAdded":{"name":None, "object":None}, 
-            "TaskyDungeon.Ui.ScreenDeleted":{"name":None},
-            "TaskyDungeon.Ui.WindowsClosed":{},
+            "Tasky.Ui.ScreenSwitched":{"ancient_screen":None, "new_screen":None}, 
+            "Tasky.Ui.ScreenAdded":{"screen":None}, 
+            "Tasky.Ui.ScreenDeleted":{"screen_name":None},
+            "Tasky.Ui.WindowsClosed":{},
             }
         
         for event_name, event_kw in self.events_infos.items():
-            event = events_handlers.Event(event_name, **event_kw)
+            event = events_handlers.Event(name=event_name, **event_kw)
             self.events_handler.add_event(event)
-            
+
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data = self.tasks_data_handler.tasks_data
         self.logger = logging.getLogger(__name__)
         self.screens = {"Tasks":tasks_screen.TasksScreen(self), "Settings":settings_screen.SettingsScreen(self)}
         self.current_screen = ("Tasks", self.screens["Tasks"])
-        self.side_bar = sidebar.SideBarFrame(self)
+        self.side_bar = SideBarFrame(self)
         self.side_bar.grid(row=0, column=0, sticky="nsew")
-        print(self.events_handler.events)
         self.switch_frame("Tasks", destroy=False)
 
     def on_closing(self):
@@ -52,7 +52,7 @@ class MainWindow(ctk.CTk):
         self.logger.info("Window closed")
 
     def switch_frame(self, frame_name: str, destroy: bool=False, ungrid_current: bool=True):
-        ancient_screen_name, ancient_screen_obj = self.current_screen
+        ancient_screen_obj = self.current_screen[1]
 
         if ungrid_current:
             ancient_screen_obj.grid_forget()
@@ -69,10 +69,8 @@ class MainWindow(ctk.CTk):
         self.logger.debug(f"Current screen : {self.frame_object}")
         self.events_handler.raise_event(
             "Tasky.Ui.ScreenSwitched", 
-            ancient_name=ancient_screen_name, 
-            ancient_oject=ancient_screen_obj, 
-            new_name=self.current_screen[0],
-            new_object=self.current_screen[1]
+            ancient_screen=ancient_screen_obj, 
+            new_screen=self.current_screen[1]
             )
         self.side_bar.refresh() 
 
@@ -80,8 +78,7 @@ class MainWindow(ctk.CTk):
         self.screens[name] = object
         self.events_handler.raise_event(
             "Tasky.Ui.ScreenAdded",
-            name=name,
-            object= object,
+            screen=object,
             )
         self.side_bar.refresh() 
 
@@ -89,6 +86,6 @@ class MainWindow(ctk.CTk):
         del self.screens[name]
         self.events_handler.raise_event(
             "Tasky.Ui.ScreenDeleted",
-            name=name,
+            screen_name=name,
             )
         self.side_bar.refresh() 

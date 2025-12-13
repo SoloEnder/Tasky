@@ -1,16 +1,19 @@
 
-import customtkinter as ctk
-from app.src import player as player_module
 import logging
+import customtkinter as ctk
+from app.tasky_dungeon.ui.screens import screen_base 
 
-class StatsScreen(ctk.CTkFrame):
 
-    def __init__(self, master, player=None):
+class StatsScreen(screen_base.Screen):
+
+    def __init__(self, master, player, events_handler):
         super().__init__(master)
         self.name = "StatsScreen"
         self.columnconfigure((0, 1), weight=1)
         self.logger = logging.getLogger(__name__)
-        self.player = player if player else player_module.Player("Player")
+
+        self.events_handler = events_handler
+        self.player = player
 
         self.widgets = {"labels":{}, "buttons":{}, "progress_bars":{}}
         self.stats = {"HP":{"current":self.player.hp, "max":self.player.max_hp}, "XP":{"current":self.player.xp, "max":self.player.xp_for_levelup}, "Strength":{"current":self.player.strength, "max":self.player.max_strength}, "Defense":{"current":self.player.defense, "max":self.player.max_defense}}
@@ -51,4 +54,11 @@ class StatsScreen(ctk.CTkFrame):
             stat_name_lb.grid(row=stats_widgets_row, column=0, sticky="w", pady=10, padx=15)
             self.widgets["labels"]["stats_names"] = stat_name_lb
             stats_widgets_row += 1
-        
+
+        self.events_handler.add_listener(self.skill_points_listener)
+        self.skill_point_sv = ctk.StringVar(self, f"Skill Points : {self.player.skill_points}")
+        self.skill_point_lb = ctk.CTkLabel(self, textvariable=self.skill_point_sv)
+        self.skill_point_lb.grid()
+
+    def skill_points_listener(self, event):
+        self.skill_point_sv.set(f"Skill Points : {self.player.skill_points}")
