@@ -9,7 +9,7 @@ class SensitiveInfoFilter(logging.Filter):
         userpath = os.path.expanduser("~")
 
         if userpath.lower() in record.getMessage().lower():
-            record.msg = record.getMessage().replace(userpath, "USERDIR")
+            record.msg = record.getMessage().replace(userpath, "~")
             record.args = ()
         return True
 
@@ -27,3 +27,4 @@ def set_logger(logger, logs_filepath: str):
     global_logger.addHandler(global_logs_streamhandler)
     global_logger.setLevel(logging.DEBUG)
     global_logs_streamhandler.addFilter(SensitiveInfoFilter())
+    global_logsfile_handler.addFilter(SensitiveInfoFilter())
