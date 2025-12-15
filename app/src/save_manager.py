@@ -1,32 +1,30 @@
 
 import json
 import logging
-from app.utils.username_hidder import remove_username
 
 logger = logging.getLogger(__name__)
 
 def file_operation_exception(func):
 
     def wrapper(filepath, data=None):
-        filepath_without_username = remove_username(filepath)
 
         try:
             data = func(filepath, data)
 
         except FileNotFoundError:
-            logger.warning(f"No file found at {filepath_without_username}")
+            logger.warning(f"No file found at {filepath}")
             return
         
         except json.JSONDecodeError:
-            logger.warning(f"Unable to load data from file {filepath_without_username} : file corrupted")
+            logger.warning(f"Unable to load data from file {filepath} : file corrupted")
             return
 
         except PermissionError:
-            logger.warning(f"Unable to load data from file {filepath_without_username} : permission denied")
+            logger.warning(f"Unable to load data from file {filepath} : permission denied")
             return
 
         except Exception as e:
-            logger.warning(f"Unable to load data from file {filepath_without_username}\n{e}")
+            logger.warning(f"Unable to load data from file {filepath}\n{e}")
             return
         
         else:
@@ -41,7 +39,7 @@ def save_data(filepath: str, data):
     with open(filepath, "w") as f:
         json.dump(data, f)
 
-    logger.info(f"Data saved at {remove_username(filepath)}")
+    logger.info(f"Data saved at {filepath}")
 
 @file_operation_exception
 def load_data(filepath: str, data):
@@ -50,6 +48,6 @@ def load_data(filepath: str, data):
     with open(filepath, "r") as f:
         data = json.load(f)
 
-    logger.info(f"Data loaded from {remove_username(filepath)}")
+    logger.info(f"Data loaded from {filepath}")
     return data
         

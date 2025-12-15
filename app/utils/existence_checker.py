@@ -3,7 +3,6 @@
 import os
 import logging
 from app.utils import paths
-from app.utils.username_hidder import remove_username
 
 logger = logging.getLogger(__name__)
 
@@ -30,17 +29,16 @@ def check_and_make(*paths_alias):
 
         else:
             path = existing_paths_alias[alias]
-            path_without_username = remove_username(path)
-            logger.info(f"Checking the existence of {path_without_username}...")
+            logger.info(f"Checking the existence of {path}...")
 
         if not os.path.exists(path):
-            logger.warning(f"Folder at {path_without_username} not found, attempting to make it...")
+            logger.warning(f"Folder at {path} not found, attempting to make it...")
 
             try:
                 os.mkdir(path)
 
             except Exception as e:
-                logger.warning(f"Failed to create folder at {path_without_username}\n[...] : {e}")
+                logger.warning(f"Failed to create folder at {path}\n[...] : {e}")
 
             else:
-                logger.info(f"Folder {path_without_username} created")
+                logger.info(f"Folder {path} created")
