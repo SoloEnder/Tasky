@@ -1,7 +1,7 @@
 
 import customtkinter as ctk
 import logging
-from app.tasky.utils import events_handlers
+from app.utils import events_handlers
 
 class TaskFrame(ctk.CTkFrame):
 

@@ -1,10 +1,10 @@
 import logging 
 import customtkinter as ctk
-from app.tasky.utils import events_handlers
-from app.tasky.src.tasks.tasks_data_handler import tasks_data_handler
-from app.tasky.ui.tasks_screen import tasks_screen
-from app.tasky.ui import settings_screen
-from app.tasky.ui import sidebar
+from app.utils import events_handlers
+from tasks_manager.src.tasks.tasks_data_handler import tasks_data_handler
+from tasks_manager.ui.tasks_screen import tasks_screen
+from tasks_manager.ui import settings_screen
+from tasks_manager.ui import sidebar
 
 class MainWindow(ctk.CTk):
     """

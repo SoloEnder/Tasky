@@ -1,14 +1,13 @@
 
 import logging
 import customtkinter as ctk
-from app.tasky_dungeon.ui.screens import screen_base 
+from tasky_dungeon.ui.screens import screen_base 
 
 
 class StatsScreen(screen_base.Screen):
 
     def __init__(self, master, player, events_handler):
-        super().__init__(master)
-        self.name = "StatsScreen"
+        super().__init__(master, "stats")
         self.columnconfigure((0, 1), weight=1)
         self.logger = logging.getLogger(__name__)
 

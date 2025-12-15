@@ -3,7 +3,7 @@ from app.tasky_dungeon.utils import events_handler_portal
 
 class TaskyDungeon:
 
-    def __init__(self, app):
+    def __init__(self, master):
         self.app = app
         self.events_handler = events_handler_portal.main_events_handler
         self.events_infos = {

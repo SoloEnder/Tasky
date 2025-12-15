@@ -1,13 +1,13 @@
 import logging 
 import customtkinter as ctk
-from app.tasky.utils import events_handlers
-from app.tasky.ui.sidebar import SideBarFrame
-from app.tasky.ui import settings_screen
-from app.tasky.ui.tasks_screen import tasks_screen
-from app.tasky.src.tasks.tasks_data_handler import tasks_data_handler
+from app.utils import events_handlers
+from tasks_manager.ui.sidebar import SideBarFrame
+from tasks_manager.ui import settings_screen
+from tasks_manager.ui.tasks_screen import tasks_screen
+from tasks_manager.src.tasks.tasks_data_handler import tasks_data_handler
 import logging
 
-class MainWindow(ctk.CTk):
+class UI(ctk.CTk):
     """
     The windows
 
@@ -21,7 +21,6 @@ class MainWindow(ctk.CTk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=5)
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
         self.events_handler = events_handlers.main_events_handler
 
@@ -45,11 +44,6 @@ class MainWindow(ctk.CTk):
         self.side_bar = SideBarFrame(self)
         self.side_bar.grid(row=0, column=0, sticky="nsew")
         self.switch_frame("Tasks", destroy=False)
-
-    def on_closing(self):
-        self.logger.debug("Window closure request received")
-        self.destroy()
-        self.logger.info("Window closed")
 
     def switch_frame(self, frame_name: str, destroy: bool=False, ungrid_current: bool=True):
         ancient_screen_obj = self.current_screen[1]

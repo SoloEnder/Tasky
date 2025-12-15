@@ -1,6 +1,6 @@
 
 import customtkinter as ctk
-from .tasks_screen.tasks_screen import TasksScreen
+from tasks_manager.ui.tasks_screen.tasks_screen import TasksScreen
 
 class SideBarFrame(ctk.CTkFrame):
     """

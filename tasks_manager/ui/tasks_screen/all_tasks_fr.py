@@ -1,9 +1,9 @@
 
 import customtkinter as ctk
 import logging
-from  app.tasky.src.tasks.tasks_data_handler import tasks_data_handler
-from app.tasky.src.tasks.tasks_frames_handler import tasks_frames_handler
-from app.tasky.src.tasks import task_creator
+from tasks_manager.src.tasks.tasks_data_handler import tasks_data_handler
+from tasks_manager.src.tasks.tasks_frames_handler import tasks_frames_handler
+from tasks_manager.src.tasks import task_creator
 
 class AllTasksFrame(ctk.CTkScrollableFrame):
 

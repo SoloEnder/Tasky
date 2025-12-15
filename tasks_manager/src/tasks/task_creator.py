@@ -1,6 +1,6 @@
 
 import logging
-from app.tasky.ui.tasks_screen.task_fr import TaskFrame
+from tasks_manager.ui.tasks_screen.task_fr import TaskFrame
 
 logger = logging.getLogger(__name__)
 

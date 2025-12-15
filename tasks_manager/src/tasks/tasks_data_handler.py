@@ -1,14 +1,14 @@
 
 import json
 import logging
-from app.tasky.src.save_manager import save_data, load_data
-from app.tasky.utils import paths
+from tasks_manager.src.save_manager import save_data, load_data
+from app.utils import paths
 
 class TasksDataHandler():
 
-    def __init__(self, tasks_data: list=[]):
+    def __init__(self, tasks_data: list|None=None):
         self.logger = logging.getLogger(__name__)
-        self.tasks_data = tasks_data
+        self.tasks_data = tasks_data if tasks_data else []
         self.tasks_backup_filepath = paths.tasks_backup_file
 
     def save_tasks_data(self):

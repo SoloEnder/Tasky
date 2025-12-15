@@ -1,8 +1,8 @@
 import customtkinter as ctk
-from .all_tasks_fr import AllTasksFrame
-from .task_editor_fr import TaskEditorFrame
-from ...src.tasks.tasks_data_handler import tasks_data_handler
-from app.tasky.ui import screen
+from tasks_manager.ui.tasks_screen.all_tasks_fr import AllTasksFrame
+from tasks_manager.ui.tasks_screen.task_editor_fr import TaskEditorFrame
+from tasks_manager.src.tasks.tasks_data_handler import tasks_data_handler
+from tasks_manager.ui import screen
 import logging
 
 class TasksScreen(screen.Screen):

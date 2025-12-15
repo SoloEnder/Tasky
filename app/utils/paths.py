@@ -11,4 +11,8 @@ user_data_dir = os.path.join(data_dir, "user") # User data directory
 tasks_backup_file = os.path.join(user_data_dir, "tasks.json") # Tasks backup file 
 
 logs_dir = os.path.join(base_path, "logs")
-logs_basefile = os.path.join(logs_dir, "app.log")
+app_logsfile = os.path.join(logs_dir, "app.log")
+tasks_manager_logsdir = os.path.join(logs_dir, "tasks_manager")
+tasks_manager_logsfile = os.path.join(tasks_manager_logsdir, "tasks_manager.log")
+tasky_dungeon_logsdir = os.path.join(logs_dir, "tasky_dungeon")
+tasky_dungeon_logsfile = os.path.join(tasky_dungeon_logsdir, "tasky_dungeon.log")

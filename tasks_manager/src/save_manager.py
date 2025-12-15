@@ -1,7 +1,7 @@
 
 import json
 import logging
-from app.tasky.utils.username_hidder import remove_username
+from app.utils.username_hidder import remove_username
 
 logger = logging.getLogger(__name__)
 

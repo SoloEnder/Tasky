@@ -1,13 +1,13 @@
 
+
 import os
 import logging
-from app.tasky.utils import paths
-from app.tasky.utils.username_hidder import remove_username
+from app.utils import paths
+from app.utils.username_hidder import remove_username
 
 logger = logging.getLogger(__name__)
 
 existing_paths_alias = {
-    "program_dir":paths.base_path,
     "data_dir":paths.data_dir,
     "logs_dir":paths.logs_dir,
     "user_data_dir":paths.user_data_dir,
@@ -44,4 +44,3 @@ def check_and_make(*paths_alias):
 
             else:
                 logger.info(f"Folder {path_without_username} created")
-

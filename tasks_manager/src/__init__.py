@@ -1,4 +1,4 @@
 
 import logging 
 
-logger = logging.getLogger("app.src")
+logger = logging.getLogger("tasks_manager.src")

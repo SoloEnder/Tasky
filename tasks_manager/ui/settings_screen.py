@@ -1,7 +1,7 @@
 
 import customtkinter as ctk
 
-from app.tasky.ui import screen
+from tasks_manager.ui import screen
 
 class SettingsScreen(screen.Screen):
 

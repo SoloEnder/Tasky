@@ -3,9 +3,9 @@ from tkinter.messagebox import showinfo
 import datetime as dt
 import logging
 from tkinter.messagebox import askyesno
-from app.tasky.src.tasks.tasks_data_handler import tasks_data_handler
-from app.tasky.src.tasks.tasks_frames_handler import tasks_frames_handler
-from app.tasky.src.tasks import task_creator
+from tasks_manager.src.tasks.tasks_data_handler import tasks_data_handler
+from tasks_manager.src.tasks.tasks_frames_handler import tasks_frames_handler
+from tasks_manager.src.tasks import task_creator
 
 class TaskEditorFrame(ctk.CTkFrame):
 
@@ -92,6 +92,8 @@ class TaskEditorFrame(ctk.CTkFrame):
         self.cancel_b.grid_remove()
         self.title_e.delete(0, ctk.END)
         self.description_tb.delete(0.0, ctk.END)
+        self.delete_b.grid_remove()
+        self.confirm_b.grid(row=7, sticky="sew", pady=5)
             
     def show_problem_window(self):
         showinfo(self.error_window_title, self.error_window_msg)
