@@ -103,7 +103,6 @@ class TaskEditorFrame(ctk.CTkFrame):
 
         if self.new_task_data:
             self.new_task = task_creator.create_task(self.master.all_tasks_fr, self.new_task_data) # type: ignore
-            self.logger.info("A task frame has been created")
 
             if self.mode == "creation":
                 self.tasks_data.insert(0, self.new_task_data) # type: ignore
