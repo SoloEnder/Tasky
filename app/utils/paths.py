@@ -8,6 +8,14 @@ base_path = os.path.dirname(__main__.__file__) if not isforwindows else os.path.
 data_dir = os.path.join(base_path, "data") # Data folder
 
 user_data_dir = os.path.join(data_dir, "user") # User data directory
+
+RESS_DIR = os.path.join(base_path, "ress") # This directory contains ressources for the app
+
+ASSETS_DIR = os.path.join(RESS_DIR, "assets") # Assets directory
+FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
+ICONS_FONT_FILEPATH = os.path.join(FONTS_DIR, "icons.ttf")
+
+
 tasks_backup_file = os.path.join(user_data_dir, "tasks.json") # Tasks backup file 
 
 logs_dir = os.path.join(base_path, "logs")
