@@ -18,6 +18,7 @@ class TasksManagerApp:
         self.tasks_data_handler = tasks_data_handler
         self.tasks_data_handler.load_tasks_data()
         self.ui = ui.UI(self)
+        self.ui.load_custom_font(paths.ICONS_FONT_FILEPATH)
         self.ui.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def running(self):

@@ -1,6 +1,7 @@
 import logging 
 import customtkinter as ctk
 from app.utils import events_handlers
+from app.utils import paths
 from tasks_manager.ui.sidebar import SideBarFrame
 from tasks_manager.ui import settings_screen
 from tasks_manager.ui.tasks_screen import tasks_screen
@@ -82,4 +83,7 @@ class UI(ctk.CTk):
             "Tasky.Ui.ScreenDeleted",
             screen_name=name,
             )
-        self.side_bar.refresh() 
+        self.side_bar.refresh()
+
+    def load_custom_font(self, font_path):
+        ctk.FontManager().load_font(font_path)
